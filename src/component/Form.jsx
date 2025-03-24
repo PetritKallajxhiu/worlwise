@@ -11,7 +11,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useCities } from "../contexts/CitiesContext";
 import { useNavigate } from "react-router-dom";
 
-function convertCode(countryCode) {
+function convertToCountryCode(countryCode) {
   const codePoints = countryCode
     .toUpperCase()
     .split("")
@@ -63,10 +63,9 @@ function Form() {
           }
           setCityName(data.city || data.locality || "");
           setCountry(data.countryName);
-          setEmoji(convertCode(data.countryCode));
+          setEmoji(convertToCountryCode(data.countryCode));
         } catch (err) {
           setGeocodingError(err.message);
-          console.log(err);
         } finally {
           setIsLoadingGeocoding(false);
         }
