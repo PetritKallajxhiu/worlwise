@@ -1,10 +1,11 @@
 import styles from "./CountryItem.module.css";
 import PropTypes from "prop-types";
+import { convertToEmoji } from "./Form";
 
 function CountryItem({ country }) {
   return (
     <li className={styles.countryItem}>
-      <span>{country.emoji}</span>
+      <span>{convertToEmoji(country.emoji)}</span>
       <span>{country.country}</span>
     </li>
   );

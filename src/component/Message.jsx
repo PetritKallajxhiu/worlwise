@@ -1,6 +1,6 @@
 import styles from "./Message.module.css";
-import PropTypes from "prop-types";
 
+// eslint-disable-next-line react/prop-types
 function Message({ message }) {
   return (
     <p className={styles.message}>
@@ -8,9 +8,5 @@ function Message({ message }) {
     </p>
   );
 }
-
-Message.propTypes = {
-  message: PropTypes.string.isRequired,
-};
 
 export default Message;

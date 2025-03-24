@@ -1,6 +1,7 @@
+import { useCities } from "../contexts/CitiesContext";
 import styles from "./CityItem.module.css";
-import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import { convertToEmoji } from "./Form";
 
 const formatDate = (date) =>
   new Intl.DateTimeFormat("en", {
@@ -9,35 +10,35 @@ const formatDate = (date) =>
     year: "numeric",
   }).format(new Date(date));
 
+// eslint-disable-next-line react/prop-types
 function CityItem({ city }) {
+  const { currentCity, deleteCity } = useCities();
+  // eslint-disable-next-line react/prop-types
   const { cityName, emoji, date, id, position } = city;
-  console.log(position);
+
+  function handleClick(e) {
+    e.preventDefault();
+    deleteCity(id);
+  }
+
   return (
     <li>
       <Link
-        className={styles.cityItem}
+        className={`${styles.cityItem} ${
+          currentCity.id === id ? styles["cityItem--active"] : ""
+        }`}
+        // eslint-disable-next-line react/prop-types
         to={`${id}?lat=${position?.lat}&lng=${position?.lng}`}
       >
-        <span className={styles.emoji}>{emoji}</span>
+        <span className={styles.emoji}>{convertToEmoji(emoji)}</span>
         <h3 className={styles.name}>{cityName}</h3>
         <time className={styles.date}>{formatDate(date)}</time>
-        <button className={styles.deleteBtn}>&times;</button>
+        <button className={styles.deleteBtn} onClick={handleClick}>
+          &times;
+        </button>
       </Link>
     </li>
   );
 }
-
-CityItem.propTypes = {
-  city: PropTypes.shape({
-    cityName: PropTypes.string.isRequired,
-    emoji: PropTypes.string.isRequired,
-    date: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-    position: PropTypes.shape({
-      lat: PropTypes.number.isRequired,
-      lng: PropTypes.number.isRequired,
-    }).isRequired,
-  }).isRequired,
-};
 
 export default CityItem;
